@@ -1,6 +1,8 @@
-[gd_scene load_steps=12 format=3 uid="uid://bu1msc71a5w8h"]
+[gd_scene load_steps=23 format=3 uid="uid://bu1msc71a5w8h"]
 
 [ext_resource type="Texture2D" uid="uid://bm1qxdo2x1dvn" path="res://Assets/sprites/Knight 2D Pixel Art/Knight 2D Pixel Art/Sprites/with_outline/IDLE.png" id="1_3vyb7"]
+[ext_resource type="Texture2D" uid="uid://sacdxbe7dm8h" path="res://Assets/sprites/Knight 2D Pixel Art/Knight 2D Pixel Art/Sprites/with_outline/JUMP.png" id="2_qhqgy"]
+[ext_resource type="Texture2D" uid="uid://belghvbvydoko" path="res://Assets/sprites/Knight 2D Pixel Art/Knight 2D Pixel Art/Sprites/with_outline/RUN.png" id="3_dqkch"]
 
 [sub_resource type="GDScript" id="GDScript_g4ft0"]
 resource_name = "player movement"
@@ -24,6 +26,24 @@ func _physics_process(delta: float) -> void:
 	# Get the input direction and handle the movement/deceleration.
 	# As good practice, you should replace UI actions with custom gameplay actions.
 	var direction := Input.get_axis(\"Move_Left\", \"Move_Right\")
+	
+	#flip the sprite
+	if direction > 0:
+		animated_sprite_2d.flip_h = false
+	elif direction < 0:
+		animated_sprite_2d.flip_h = true
+	
+	#play animation
+	
+	if is_on_floor():
+		if direction == 0:
+			animated_sprite_2d.play(\"idle\")
+		else:
+			animated_sprite_2d.play(\"run\")
+	else:
+		animated_sprite_2d.play(\"jump\")
+
+	
 	if direction:
 		velocity.x = direction * SPEED
 	else:
@@ -60,6 +80,42 @@ region = Rect2(480, 0, 96, 84)
 atlas = ExtResource("1_3vyb7")
 region = Rect2(576, 0, 96, 84)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_ur7pv"]
+atlas = ExtResource("2_qhqgy")
+region = Rect2(0, 0, 96, 84)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_f1ej7"]
+atlas = ExtResource("3_dqkch")
+region = Rect2(0, 0, 96, 84)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_oprun"]
+atlas = ExtResource("3_dqkch")
+region = Rect2(96, 0, 96, 84)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_a8ls1"]
+atlas = ExtResource("3_dqkch")
+region = Rect2(192, 0, 96, 84)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qfm1y"]
+atlas = ExtResource("3_dqkch")
+region = Rect2(288, 0, 96, 84)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fulsm"]
+atlas = ExtResource("3_dqkch")
+region = Rect2(384, 0, 96, 84)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4r5pv"]
+atlas = ExtResource("3_dqkch")
+region = Rect2(480, 0, 96, 84)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_60mlk"]
+atlas = ExtResource("3_dqkch")
+region = Rect2(576, 0, 96, 84)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_i4ail"]
+atlas = ExtResource("3_dqkch")
+region = Rect2(672, 0, 96, 84)
+
 [sub_resource type="SpriteFrames" id="SpriteFrames_a8nf5"]
 animations = [{
 "frames": [{
@@ -87,6 +143,43 @@ animations = [{
 "loop": true,
 "name": &"idle",
 "speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ur7pv")
+}],
+"loop": true,
+"name": &"jump",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_f1ej7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_oprun")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_a8ls1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qfm1y")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fulsm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4r5pv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_60mlk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_i4ail")
+}],
+"loop": true,
+"name": &"run",
+"speed": 10.0
 }]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_3vyb7"]
@@ -102,7 +195,8 @@ position = Vector2(0, -7)
 sprite_frames = SubResource("SpriteFrames_a8nf5")
 animation = &"idle"
 autoplay = "idle"
-frame_progress = 0.292866
+frame = 1
+frame_progress = 0.615647
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, -1)
