@@ -1,0 +1,69 @@
+[gd_scene load_steps=10 format=3 uid="uid://rdavjtswinsi"]
+
+[ext_resource type="Texture2D" uid="uid://dce2v7mwgagcv" path="res://Assets/sprites/Outline/MiniSwordMan.png" id="1_4k6nx"]
+[ext_resource type="Script" uid="uid://ciafdwbkyje00" path="res://scripts/mini_sword_man.gd" id="1_bk7uo"]
+[ext_resource type="PackedScene" uid="uid://cjo8gi6w8mtcy" path="res://scenes/killzone.tscn" id="2_bk7uo"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fcbhx"]
+atlas = ExtResource("1_4k6nx")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_x0k8v"]
+atlas = ExtResource("1_4k6nx")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xrqee"]
+atlas = ExtResource("1_4k6nx")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fidao"]
+atlas = ExtResource("1_4k6nx")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_on2od"]
+animations = [{
+"frames": [{
+"duration": 0.9,
+"texture": SubResource("AtlasTexture_fcbhx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_x0k8v")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xrqee")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fidao")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_53bvp"]
+size = Vector2(12, 15)
+
+[node name="Mini sword man" type="Node2D"]
+script = ExtResource("1_bk7uo")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -4.76837e-07)
+sprite_frames = SubResource("SpriteFrames_on2od")
+animation = &"idle"
+autoplay = "idle"
+frame_progress = 0.0319796
+
+[node name="killzone" parent="." instance=ExtResource("2_bk7uo")]
+position = Vector2(0, -4.76837e-07)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="killzone"]
+position = Vector2(0, 7.5)
+shape = SubResource("RectangleShape2D_53bvp")
+
+[node name="RayCastright" type="RayCast2D" parent="."]
+position = Vector2(0, 8)
+target_position = Vector2(8, 0)
+
+[node name="RayCastleft" type="RayCast2D" parent="."]
+position = Vector2(0, 8)
+target_position = Vector2(-8, 0)
